@@ -1,4 +1,8 @@
 import sys, random
+
+from PyQt5.QtCore import QBasicTimer
+from PyQt5.QtCore import QTimerEvent
+
 import graphics
 import model
 from PyQt5.QtGui import QKeyEvent
@@ -10,10 +14,12 @@ from PyQt5.QtCore import Qt
 class Example(QWidget):
     def __init__(self):
         super().__init__()
-        self.width = 800
-        self.height = 600
+        self.width = 1400
+        self.height = 800
         self.initUI()
-        self.model = model.Model()
+        self.model = model.Model(self.width, self.height)
+        self.timer = QBasicTimer()
+        self.timer.start(10 , self)
 
     def initUI(self):
         self.setGeometry(800 - self.width // 2, 450 - self.height // 2,
@@ -35,8 +41,13 @@ class Example(QWidget):
         graphics.draw_model(self.model, qp)
 
     def keyPressEvent(self, event: QKeyEvent):
+        self.model.update()
         if event.key() == Qt.Key_Control:
             self.update()
+
+    def timerEvent(self, event: QTimerEvent):
+        self.model.update()
+        self.update()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
