@@ -29,7 +29,7 @@ class Drop:
 class Model:
     def __init__(self):
         self.drops = []
-        self.drops.append(Drop(3, (0, 0)))
+        self.drops.append(Drop(3, (100, 100)))
 
     def update(self):
         for drop in self.drops:
