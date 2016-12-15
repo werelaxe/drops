@@ -5,14 +5,15 @@ from math import cos, sin
 RADIUS = 10
 DROP_COUNT = 10
 TAIL_LEN = 100
-RANDOM_DY_FACTOR = 1
+RANDOM_DY_FACTOR = 0
 RANDOM_DX_FACTOR = 0
-DX_STEP = -2
-DY_STEP = -1
+DX_STEP = 0
+DY_STEP = 2
+
 TIME_DEPENDENCE = True
-DX_TIME_PERIOD = 1
-DY_TIME_PERIOD = 1
-WIDE_X = 5
+DX_TIME_PERIOD = 0.5
+DY_TIME_PERIOD = 0.3
+WIDE_X = 2
 WIDE_Y = 1
 
 
@@ -45,8 +46,8 @@ class Drop:
 
 class Model:
     def __init__(self, width, height):
-        DX_STEP = 1
-        DY_STEP = 1
+        # DX_STEP = 1
+        # DY_STEP = 1
         self.drops = []
         self.width = width
         self.height = height
@@ -54,12 +55,14 @@ class Model:
             self.drops.append(Drop(TAIL_LEN, (width * random(), height * random()), DX_STEP, DY_STEP))
 
     def update(self):
-        step_x = WIDE_X * cos(time() * DX_TIME_PERIOD)
-        step_y = WIDE_Y * sin(time() * DY_TIME_PERIOD)
+        if TIME_DEPENDENCE:
+            step_x = WIDE_X * cos(time() * DX_TIME_PERIOD)
+            step_y = WIDE_Y * sin(time() * DY_TIME_PERIOD)
         for index in range(len(self.drops)):
             drop = self.drops[index]
-            # step_x = drop.step_x
-            # step_y = drop.step_y
+            if not TIME_DEPENDENCE:
+                step_x = drop.step_x
+                step_y = drop.step_y
             last_circle = drop.circles[-1]
             drop.circles = drop.circles[1:]
             last_radius = last_circle.radius

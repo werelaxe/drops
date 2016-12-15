@@ -19,7 +19,7 @@ class Example(QWidget):
         self.initUI()
         self.model = model.Model(self.width, self.height)
         self.timer = QBasicTimer()
-        self.timer.start(10 , self)
+        self.timer.start(0, self)
 
     def initUI(self):
         self.setGeometry(800 - self.width // 2, 450 - self.height // 2,
